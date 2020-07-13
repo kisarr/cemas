@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BlogController!{% endblock %}
+
+{% block body %}
+	<section class="article">
+        <article>
+			<h2>{{ article.title }}</h2>
+			<div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} dans la catégorie Politique</div>
+			<div class="content">
+				<img src="{{ article.image }}" alt="">
+				<div class="text-justify">
+                    {{ article.content | raw }}
+                </div>
+			</div>
+		</article>
+    </section>
+{% endblock %}
