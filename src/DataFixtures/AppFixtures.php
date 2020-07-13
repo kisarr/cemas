@@ -18,8 +18,8 @@ class AppFixtures extends Fixture
         for($i = 1; $i < 11 ; $i++)
         {
             $article = new Article();
-            $article->setTitle($faker->name)
-                    ->setContent($faker->text)
+            $article->setTitle("Titre de l'article # $i")
+                    ->setContent("Contenu de l'article #$i")
                     ->setImage("http://placehold.it/350x150")
                     ->setCreatedAt(new \DateTime());
 
