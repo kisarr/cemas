@@ -3,12 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BlogController extends AbstractController
 {
@@ -39,21 +40,42 @@ class BlogController extends AbstractController
 
     /**
      * @Route("/new", name="blog_create")
+     * @Route("/blog/article/{id}/edit", name="blog_edit")
      */
 
-    public function create(Request $request)
+    public function form(Article $article = null, Request $request, ObjectManager $manager)
     {
-       $article = new Article();
+       if(!$article){
+        $article = new Article();
+       }
+        
+       /* $article->setTitle("Titre de l'exemple")
+                ->setContent("Contenu de l'article exemple")
+                ->setImage("http://placehold.it/350x150"); */
 
-       $form = $this->createFormBuilder($article)
+     /*   $form = $this->createFormBuilder($article)
                     ->add('title')
                     ->add('content')
                     ->add('image')
-                    ->getForm();
+                    ->getForm(); */
+        $form = $this->createForm(ArticleType::class);
+        $form->handleRequest($request);
 
+        if($form->isSubmitted() && $form->isValid()) {
+            if(!$article->getId()){
+            $article->setCreatedAt(new \DateTime());
+            }
+
+            $manager->persist($article);
+            $manager->flush();
+            return $this->redirectToRoute('blog_show', [
+                'id' => $article->getId()
+                ]);
+        };
 
         return $this->render('blog/create.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'editMode' => $article->getId() !== null
         ]);
     }
 
