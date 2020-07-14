@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BlogController!{% endblock %}
+
+{% block body %}
+
+    <h1>Création d'un article !!! </h1>
+
+    {{ form_start(form) }}
+
+    {{ form_row(form.title, {'attr':{}} ) }}
+    <button type="submit" class="btn btn-success">Envoyer l'article</button>
+    {{ form_end(form)  }}
+
+{% endblock %}
