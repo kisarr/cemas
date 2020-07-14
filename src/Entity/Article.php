@@ -20,24 +20,35 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=10, max=255)
+     * @Assert\Length(
+     *      min = 10,
+     *      max = 100,
+     *      minMessage = "Le titre doit avoir au moins {{ limit }} caractères",
+     *      maxMessage = "Votre titre est trop long. Maximun {{ limit }} caractères",
+     *      allowEmptyString = false
+     * )
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\Length(min=10)
+     * @Assert\Length(
+     *      min = 120,
+     *      minMessage = "Votre article doit contenir au moins {{ limit }} caratères",
+     *      allowEmptyString = false
+     * )
      */
     private $content;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Url()
+     * @Assert\Url
      */
     private $image;
 
     /**
      * @ORM\Column(type="datetime")
+     * 
      */
     private $createdAt;
 

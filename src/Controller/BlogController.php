@@ -45,7 +45,7 @@ class BlogController extends AbstractController
 
     public function form(Article $article = null, Request $request, ObjectManager $manager)
     {
-       if(!$article){
+       if($article === null){
         $article = new Article();
        }
         
@@ -58,14 +58,14 @@ class BlogController extends AbstractController
                     ->add('content')
                     ->add('image')
                     ->getForm(); */
-        $form = $this->createForm(ArticleType::class);
+        $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
             if(!$article->getId()){
             $article->setCreatedAt(new \DateTime());
             }
-
+            //dd($article);
             $manager->persist($article);
             $manager->flush();
             return $this->redirectToRoute('blog_show', [
