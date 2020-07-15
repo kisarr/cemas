@@ -15,17 +15,19 @@ class ArticleFixtures extends Fixture
             $faker = \Faker\Factory::create('fr_FR');
 
             // créer trois catégories
-            for($i=0; $i<3; $i++){
+            for($i=1; $i<=3; $i++){
                 $category = new Category();
                 $category->setTitle($faker->sentence())
                         ->setDescription($faker->paragraph());
                 $manager->persist($category);
+                
+            
 
-                // créer entre 4 et 6 articles par catégory
+                 // créer entre 4 et 6 articles par catégory
 
                 $content = '<p>' . join($faker->paragraphs(5), '</p><p>') .'</p>';
 
-                for($j = 1; $i <= mt_rand(4,6); $j++)
+                for($j = 1; $j <= mt_rand(4,6); $j++)
             {
                 $article = new Article();
                 $article->setTitle($faker->sentence())
@@ -35,7 +37,7 @@ class ArticleFixtures extends Fixture
                         ->setCategory($category);
 
                 $manager->persist($article);
-
+               
                 // On done des commentaires à l'article
 
                 for($k = 1; $k <= mt_rand(4, 6); $k++){
@@ -60,6 +62,6 @@ class ArticleFixtures extends Fixture
         }
             
 
-            $manager->flush();
+            $manager->flush(); 
     }
 }

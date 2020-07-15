@@ -6,7 +6,7 @@
 	<section class="article">
         <article>
 			<h2>{{ article.title }}</h2>
-			<div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} dans la catégorie Politique</div>
+			<div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} dans la catégorie {{ article.category.title }}</div>
 			<div class="content">
 				<img src="{{ article.image }}" alt="">
 				<div class="text-justify">
@@ -14,5 +14,20 @@
                 </div>
 			</div>
 		</article>
-    </section>
+	</section><hr><h3 class="text-muted">Les commentaires de l'article</h3><hr>
+	<section id="commentaires">
+		{% for comment in article.comments %}
+			<div class="comment">
+				<div class="row">
+					<div class="col-3">
+						{{ comment.author }} <br> ( <small>{{ comment.createdAt | date('d/m/Y à H:i') }}</small>)
+					</div>
+					<div class="col-9">
+						{{ comment.content | raw }}
+					</div>
+				</div>
+			</div>
+			<hr><hr>
+		{% endfor %}
+	</section>
 {% endblock %}
